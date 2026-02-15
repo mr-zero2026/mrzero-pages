@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MrZero Content Manager</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; }
+.header { background: #000; color: #fff; padding: 16px 24px; display: flex; align-items: center; gap: 12px; }
+.header img { width: 40px; height: 40px; border-radius: 8px; }
+.header h1 { font-size: 20px; font-weight: 600; }
+.container { max-width: 800px; margin: 40px auto; padding: 0 24px; }
+.card { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.card h2 { font-size: 18px; margin-bottom: 16px; color: #111; }
+.card p { color: #666; margin-bottom: 16px; line-height: 1.6; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-tiktok { background: #000; color: #fff; }
+.btn-tiktok:hover { background: #333; }
+.btn-upload { background: #fe2c55; color: #fff; }
+.btn-upload:hover { background: #d9264a; }
+.btn-post { background: #25f4ee; color: #000; }
+.btn-post:hover { background: #1ad5cf; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+.status-connected { background: #e8fbe8; color: #1a7f1a; }
+.status-disconnected { background: #f5f5f5; color: #999; }
+.upload-area { border: 2px dashed #ddd; border-radius: 12px; padding: 40px; text-align: center; margin: 16px 0; transition: border-color 0.2s; }
+.upload-area:hover { border-color: #fe2c55; }
+.upload-area .icon { font-size: 48px; margin-bottom: 12px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+.form-group textarea { height: 80px; resize: vertical; }
+.privacy-list { font-size: 13px; color: #888; margin-top: 8px; }
+.privacy-list li { margin-bottom: 4px; }
+.tiktok-icon { width: 20px; height: 20px; }
+.step-indicator { display: flex; gap: 8px; margin-bottom: 24px; }
+.step { width: 40px; height: 4px; border-radius: 2px; background: #eee; }
+.step.active { background: #fe2c55; }
+.step.done { background: #25f4ee; }
+.hidden { display: none; }
+#loginSection .card { border-left: 4px solid #000; }
+#uploadSection .card { border-left: 4px solid #fe2c55; }
+#postSection .card { border-left: 4px solid #25f4ee; }
+.user-info { display: flex; align-items: center; gap: 12px; padding: 12px; background: #f9f9f9; border-radius: 8px; margin-bottom: 16px; }
+.user-avatar { width: 48px; height: 48px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.user-details h3 { font-size: 15px; }
+.user-details p { font-size: 13px; color: #888; }
+.success-msg { background: #e8fbe8; border: 1px solid #b8e6b8; padding: 16px; border-radius: 8px; margin-top: 16px; text-align: center; }
+.success-msg .check { font-size: 32px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <img src="app_icon_1024.jpg" alt="MrZero" onerror="this.style.display='none'">
+  <h1>MrZero Content Manager</h1>
+</div>
+
+<div class="container">
+  <div class="step-indicator">
+    <div class="step active" id="step1"></div>
+    <div class="step" id="step2"></div>
+    <div class="step" id="step3"></div>
+  </div>
+
+  <!-- Step 1: Login -->
+  <div id="loginSection">
+    <div class="card">
+      <h2>Step 1: Connect TikTok Account</h2>
+      <p>Sign in with your TikTok account to manage and publish content directly from MrZero Content Manager.</p>
+      <div style="margin-bottom:16px">
+        <span class="status status-disconnected" id="loginStatus">● Not connected</span>
+      </div>
+      <button class="btn btn-tiktok" id="loginBtn" onclick="doLogin()">
+        <svg class="tiktok-icon" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13.2a8.16 8.16 0 005.58 2.2V12a4.83 4.83 0 01-3.77-1.63V6.69h3.77z"/></svg>
+        Continue with TikTok
+      </button>
+      <ul class="privacy-list" style="margin-top:12px">
+        <li>✓ We'll access your basic profile info</li>
+        <li>✓ We'll be able to post content on your behalf</li>
+        <li>✓ You can revoke access at any time</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 2: Upload -->
+  <div id="uploadSection" class="hidden">
+    <div class="card">
+      <h2>Step 2: Upload Video</h2>
+      <div class="user-info" id="userInfo">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <h3 id="userName">@sandbox_user</h3>
+          <p>Connected via TikTok</p>
+        </div>
+        <span class="status status-connected">● Connected</span>
+      </div>
+      <div class="upload-area" id="uploadArea" onclick="doUpload()">
+        <div class="icon">🎬</div>
+        <p><strong>Click to upload video</strong></p>
+        <p style="font-size:13px;color:#999">MP4, MOV • Max 50MB</p>
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="videoTitle" placeholder="Enter video title..." value="My awesome content #mrzero">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="videoDesc" placeholder="Describe your video...">Check out this content created with MrZero Content Manager! 🚀</textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Post -->
+  <div id="postSection" class="hidden">
+    <div class="card">
+      <h2>Step 3: Publish to TikTok</h2>
+      <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <h3>@sandbox_user</h3>
+          <p>Ready to publish</p>
+        </div>
+      </div>
+      <div style="background:#f9f9f9;padding:16px;border-radius:8px;margin-bottom:16px">
+        <p><strong>📹 sample_video.mp4</strong></p>
+        <p style="font-size:13px;color:#666;margin-top:4px">Title: My awesome content #mrzero</p>
+        <p style="font-size:13px;color:#666">Privacy: Public</p>
+      </div>
+      <button class="btn btn-post" id="postBtn" onclick="doPost()">
+        🚀 Publish to TikTok (Direct Post)
+      </button>
+      <div id="successMsg" class="hidden success-msg">
+        <div class="check">✅</div>
+        <h3>Successfully Published!</h3>
+        <p style="margin-top:8px;color:#666">Your video has been posted to TikTok via Content Posting API (Direct Post).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CLIENT_KEY = 'awzh513px3otpd2o';
+const REDIRECT_URI = 'https://mr-zero2026.github.io/mrzero-pages/callback.html';
+
+function doLogin() {
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Connecting...';
+  
+  // In production, this would redirect to TikTok OAuth
+  // For demo, simulate the OAuth flow
+  const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=user.info.basic,video.publish,video.upload&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=demo`;
+  
+  // Simulate successful login after 2s
+  setTimeout(() => {
+    document.getElementById('loginStatus').className = 'status status-connected';
+    document.getElementById('loginStatus').textContent = '● Connected';
+    btn.textContent = '✓ Connected to TikTok';
+    document.getElementById('step1').className = 'step done';
+    document.getElementById('step2').className = 'step active';
+    
+    setTimeout(() => {
+      document.getElementById('uploadSection').classList.remove('hidden');
+      document.getElementById('uploadSection').scrollIntoView({behavior:'smooth'});
+    }, 500);
+  }, 2000);
+}
+
+function doUpload() {
+  const area = document.getElementById('uploadArea');
+  area.innerHTML = '<div class="icon">⏳</div><p><strong>Uploading video...</strong></p><p style="font-size:13px;color:#999">sample_video.mp4 (2.4 MB)</p>';
+  
+  setTimeout(() => {
+    area.innerHTML = '<div class="icon">✅</div><p><strong>sample_video.mp4</strong></p><p style="font-size:13px;color:#25f4ee">Upload complete • 2.4 MB</p>';
+    area.style.borderColor = '#25f4ee';
+    area.style.background = '#f0fffe';
+    document.getElementById('step2').className = 'step done';
+    document.getElementById('step3').className = 'step active';
+    
+    setTimeout(() => {
+      document.getElementById('postSection').classList.remove('hidden');
+      document.getElementById('postSection').scrollIntoView({behavior:'smooth'});
+    }, 500);
+  }, 2000);
+}
+
+function doPost() {
+  const btn = document.getElementById('postBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Publishing...';
+  
+  setTimeout(() => {
+    btn.classList.add('hidden');
+    document.getElementById('successMsg').classList.remove('hidden');
+    document.getElementById('step3').className = 'step done';
+  }, 2500);
+}
+
+// Check for OAuth callback
+const params = new URLSearchParams(window.location.search);
+if (params.get('code')) {
+  // Returned from TikTok OAuth
+  doLogin();
+}
+</script>
+</body>
+</html>
