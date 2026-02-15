@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>OAuth Callback</title>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const state = params.get('state');
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('info').textContent = code 
+    ? 'Authorization successful! Code: ' + code.substring(0,8) + '...' 
+    : 'No authorization code received.';
+});
+</script>
+</head><body style="font-family:sans-serif;text-align:center;padding:60px">
+<h1>OAuth Callback</h1>
+<p id="info">Processing...</p>
+<p>You can close this window.</p>
+</body></html>
