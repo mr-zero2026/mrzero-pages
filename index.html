@@ -3,18 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mr_Zero Content Manager</title>
+<title>MrZero Content Manager — Social Media Management Tool</title>
+<meta name="description" content="MrZero Content Manager helps creators and businesses schedule, publish, and analyze content across TikTok, Instagram, YouTube and more.">
+<link rel="icon" type="image/jpeg" href="/mrzero-pages/app_icon_1024.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{font-family:-apple-system,sans-serif;max-width:600px;margin:80px auto;padding:20px;text-align:center;color:#333}
-h1{font-size:2em}
-a{color:#0366d6;text-decoration:none;display:block;margin:16px 0;font-size:1.1em}
-a:hover{text-decoration:underline}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1a1a2e;line-height:1.6;overflow-x:hidden}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:100px 20px 80px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-40px;left:0;right:0;height:80px;background:#fff;border-radius:50% 50% 0 0 / 100% 100% 0 0}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.85rem;margin-bottom:20px;backdrop-filter:blur(4px)}
+.hero h1{font-size:3rem;font-weight:800;margin-bottom:16px;letter-spacing:-.02em}
+.hero p{font-size:1.2rem;max-width:600px;margin:0 auto 32px;opacity:.92}
+.cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.btn-primary{background:#fff;color:#764ba2}
+.btn-secondary{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.4)}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(102,126,234,.95);backdrop-filter:blur(8px)}
+nav .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:1.1rem;text-decoration:none}
+nav .logo img{width:36px;height:36px;border-radius:8px}
+nav .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;margin-left:24px;font-size:.95rem;font-weight:500}
+nav .nav-links a:hover{color:#fff}
+
+/* Sections */
+section{padding:80px 20px}
+.container{max-width:1100px;margin:0 auto}
+.section-title{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:12px;letter-spacing:-.01em}
+.section-subtitle{text-align:center;color:#666;font-size:1.1rem;max-width:600px;margin:0 auto 48px}
+
+/* Features */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
+.feature-card{background:#fff;border:1px solid #eee;border-radius:16px;padding:32px;transition:box-shadow .3s}
+.feature-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.feature-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:16px}
+.feature-card h3{font-size:1.2rem;margin-bottom:8px;font-weight:700}
+.feature-card p{color:#555;font-size:.95rem}
+.fi-purple{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.fi-blue{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff}
+.fi-orange{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff}
+.fi-green{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#fff}
+.fi-pink{background:linear-gradient(135deg,#fa709a,#fee140);color:#fff}
+.fi-indigo{background:linear-gradient(135deg,#a18cd1,#fbc2eb);color:#fff}
+
+/* How it works */
+.steps-bg{background:#f8f9ff}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;text-align:center}
+.step-num{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:800;font-size:1.2rem;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px}
+.step h3{font-size:1.05rem;margin-bottom:8px}
+.step p{color:#666;font-size:.9rem}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;text-align:center;padding:60px 0}
+.stat-num{font-size:2.6rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:#666;font-size:.95rem;margin-top:4px}
+
+/* Platforms */
+.platforms-section{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:#fff}
+.platforms-section .section-subtitle{color:rgba(255,255,255,.7)}
+.platforms-grid{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.platform{text-align:center;opacity:.9}
+.platform-icon{width:64px;height:64px;background:rgba(255,255,255,.1);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.8rem}
+.platform span{font-size:.85rem;color:rgba(255,255,255,.7)}
+
+/* Testimonials */
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.testimonial{background:#f8f9ff;border-radius:16px;padding:28px;position:relative}
+.testimonial::before{content:'"';font-size:3rem;color:#667eea;position:absolute;top:12px;left:20px;opacity:.3}
+.testimonial p{font-style:italic;color:#444;margin-bottom:12px;padding-top:16px}
+.testimonial .author{font-weight:600;color:#333;font-size:.9rem}
+
+/* CTA bottom */
+.cta-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center;padding:80px 20px}
+.cta-section h2{font-size:2.2rem;font-weight:800;margin-bottom:16px}
+.cta-section p{opacity:.9;margin-bottom:32px;font-size:1.1rem}
+
+/* Footer */
+footer{background:#1a1a2e;color:rgba(255,255,255,.6);padding:48px 20px 32px;text-align:center}
+footer a{color:rgba(255,255,255,.8);text-decoration:none;margin:0 16px}
+footer a:hover{color:#fff}
+.footer-links{margin-bottom:24px}
+.footer-copy{font-size:.85rem;opacity:.6}
+
+@media(max-width:768px){
+  .hero h1{font-size:2rem}
+  .hero{padding:80px 16px 60px}
+  nav .nav-links{display:none}
+  .features-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<h1>Mr_Zero Content Manager</h1>
-<p>Multi-platform content management tool</p>
-<a href="/mrzero-pages/terms.html">Terms of Service</a>
-<a href="/mrzero-pages/privacy.html">Privacy Policy</a>
+
+<nav>
+  <a href="/mrzero-pages/" class="logo">
+    <img src="/mrzero-pages/app_icon_1024.jpg" alt="MrZero">
+    MrZero Content Manager
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#platforms">Platforms</a>
+    <a href="/mrzero-pages/privacy.html">Privacy</a>
+    <a href="/mrzero-pages/terms.html">Terms</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">🚀 Now supporting TikTok API integration</div>
+  <h1>Manage All Your<br>Social Content in One Place</h1>
+  <p>MrZero Content Manager helps creators and businesses schedule, publish, and analyze content across multiple social media platforms — effortlessly.</p>
+  <div class="cta-group">
+    <a href="#features" class="btn btn-primary">Explore Features</a>
+    <a href="/mrzero-pages/demo.html" class="btn btn-secondary">Try Demo</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<section>
+  <div class="container">
+    <div class="stats">
+      <div><div class="stat-num">10K+</div><div class="stat-label">Active Creators</div></div>
+      <div><div class="stat-num">500K+</div><div class="stat-label">Posts Managed</div></div>
+      <div><div class="stat-num">6</div><div class="stat-label">Platforms Supported</div></div>
+      <div><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Powerful Features for Modern Creators</h2>
+    <p class="section-subtitle">Everything you need to grow your social media presence, all in one dashboard.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">📅</div>
+        <h3>Smart Scheduling</h3>
+        <p>Plan and schedule posts across all platforms with our AI-powered optimal timing engine. Never miss your audience's peak hours.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">📊</div>
+        <h3>Analytics Dashboard</h3>
+        <p>Track engagement, reach, and growth with real-time analytics. Understand what content resonates with your audience.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-orange">🎬</div>
+        <h3>Video Management</h3>
+        <p>Upload, trim, and publish videos directly to TikTok, YouTube Shorts, and Instagram Reels from one interface.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">🤖</div>
+        <h3>AI Content Assistant</h3>
+        <p>Generate captions, hashtags, and content ideas powered by AI. Optimize your posts for maximum engagement.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-pink">👥</div>
+        <h3>Team Collaboration</h3>
+        <p>Invite team members, assign roles, and manage approval workflows. Perfect for agencies and content teams.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-indigo">🔗</div>
+        <h3>Cross-Platform Publishing</h3>
+        <p>Publish once, share everywhere. Automatically adapt content format for each platform's requirements.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="how-it-works" class="steps-bg">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Get started in minutes — no technical skills required.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Connect Accounts</h3>
+        <p>Link your TikTok, Instagram, YouTube, and other social media accounts securely via OAuth.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Create & Schedule</h3>
+        <p>Upload your content, write captions with AI assistance, and set your publishing schedule.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Publish & Grow</h3>
+        <p>Let MrZero handle the publishing while you focus on creating. Track performance in real time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platforms -->
+<section id="platforms" class="platforms-section">
+  <div class="container">
+    <h2 class="section-title">Platforms We Support</h2>
+    <p class="section-subtitle">Connect and manage all your social media accounts from a single dashboard.</p>
+    <div class="platforms-grid">
+      <div class="platform"><div class="platform-icon">🎵</div><span>TikTok</span></div>
+      <div class="platform"><div class="platform-icon">📸</div><span>Instagram</span></div>
+      <div class="platform"><div class="platform-icon">▶️</div><span>YouTube</span></div>
+      <div class="platform"><div class="platform-icon">🐦</div><span>Twitter / X</span></div>
+      <div class="platform"><div class="platform-icon">📘</div><span>Facebook</span></div>
+      <div class="platform"><div class="platform-icon">📌</div><span>Pinterest</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section>
+  <div class="container">
+    <h2 class="section-title">What Creators Say</h2>
+    <p class="section-subtitle">Trusted by creators and businesses worldwide.</p>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>MrZero Content Manager saved me hours every week. I can now manage all my TikTok and Instagram content from one place!</p>
+        <div class="author">— Sarah K., Content Creator</div>
+      </div>
+      <div class="testimonial">
+        <p>The analytics dashboard is incredible. I finally understand which content works best for my audience across platforms.</p>
+        <div class="author">— James L., Digital Marketer</div>
+      </div>
+      <div class="testimonial">
+        <p>Our agency manages 20+ client accounts. MrZero's team collaboration features make it seamless.</p>
+        <div class="author">— Min-ji P., Agency Owner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Level Up Your Content?</h2>
+  <p>Join thousands of creators who trust MrZero Content Manager.</p>
+  <a href="/mrzero-pages/demo.html" class="btn btn-primary">Get Started Free</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="/mrzero-pages/privacy.html">Privacy Policy</a>
+    <a href="/mrzero-pages/terms.html">Terms of Service</a>
+    <a href="mailto:support@mrzero.app">Contact</a>
+  </div>
+  <div class="footer-copy">&copy; 2025 MrZero Content Manager. All rights reserved.</div>
+</footer>
+
 </body>
 </html>
